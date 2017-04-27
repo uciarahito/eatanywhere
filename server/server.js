@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const passport = require('passport')
+const Strategy = require('passport-local').Strategy
+const authController = require('./controllers/authController')
 
 mongoose.connect('mongodb://localhost/eatanywhere');
 
@@ -21,6 +24,11 @@ app.use(require('body-parser').urlencoded({
     extended: false
 }));
 app.use(require('body-parser').json());
+
+passport.use(new Strategy(authController.login));
+
+app.use(passport.initialize());
+
 app.use('/', require('./routes'))
 
 // NOTE: run
