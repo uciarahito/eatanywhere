@@ -13,7 +13,7 @@ methods.login = (username, password, next) => {
                 let data = Object.assign({}, record.toJSON())
                 // console.log(record);
                 let token = jwt.sign(data, 'secret', {
-                    expiresIn: '1h'
+                    expiresIn: '1d'
                 })
                 next(null, {
                     message: 'Login is Successful',

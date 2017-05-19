@@ -9,9 +9,7 @@ methods.check_token_admin = (req, res, next) => {
                 next()
             }
         } else {
-            res.send({
-                error
-            })
+            res.send(error)
         }
     })
 }
@@ -19,14 +17,15 @@ methods.check_token_admin = (req, res, next) => {
 methods.check_token_member = (req, res, next) => {
     let x = req.headers.token
     jwt.verify(x, 'secret', (error, decoded) => {
+
         if (decoded) {
             if (decoded.role === 'member') {
                 next()
+            } else {
+                res.send('Please Sign Up First')
             }
         } else {
-            res.send({
-                error
-            })
+            res.send(error.message)
         }
     })
 }
@@ -35,9 +34,7 @@ methods.check_token_global = (req, res, next) => {
     let x = req.headers.token
     jwt.verify(x, 'secret', (error, decoded) => {
         if (decoded) {
-            if (decoded.role === 'guest' || decoded.role === 'member') {
-                next()
-            }
+            next()
         } else {
             res.send({
                 error
